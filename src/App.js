@@ -1,12 +1,11 @@
 import './App.css';
 // import propTypes from 'prop-types';
 import { useState } from 'react';
-import { start } from 'repl';
 
 function App() {
   const [user, setUser] = useState('');
   const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('M');
+  const [lastName, setLastName] = useState('');
   const [isAttending, setIsAttending] = useState('not attending');
 
   // const baseUrl = 'http://localhost:4000';
@@ -69,7 +68,11 @@ function App() {
       <br />
       <br />
       <button>Delete Guest</button>
-      <div data-test-id="guest"></div>
+
+      <div data-test-id="guest">
+        {firstName}
+        {lastName}
+      </div>
     </div>
   );
 }
