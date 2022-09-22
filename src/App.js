@@ -3,10 +3,24 @@ import './App.css';
 import { useState } from 'react';
 
 function App() {
-  const [user, setUser] = useState('');
+  const guestList = [];
+  const [guests, setGuests] = useState([]);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [isAttending, setIsAttending] = useState('not attending');
+  const newGuest = [
+    { firstname: '' },
+    { lastname: '' },
+    { status: 'not attending' },
+  ];
+
+  function createGuest() {
+    return (newGuest.firstname = { firstName });
+    newGuest.lastname = { lastName };
+  }
+
+  createGuest();
+  console.log(newGuest);
 
   // const baseUrl = 'http://localhost:4000';
 
@@ -76,6 +90,7 @@ function App() {
       <div data-test-id="guest">
         {firstName}
         {lastName}
+        {isAttending}
       </div>
     </div>
   );
