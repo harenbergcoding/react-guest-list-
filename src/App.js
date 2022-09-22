@@ -46,26 +46,30 @@ function App() {
       <button>Load Guestlist</button>
       <br />
       <br />
-      <label>
-        First name
-        <input
-          value={firstName}
-          onChange={(event) => {
-            setFirstName(event.currentTarget.value);
-          }}
-        />
-      </label>
-      <br />
-      <label
-        value={lastName}
-        onChange={(event) => {
-          setLastName(event.currentTarget.value);
-        }}
-      >
-        Last name
-        <input />
-      </label>
-      <br />
+      <form onSubmit={(event) => event.preventDefault}>
+        <label>
+          First name
+          <input
+            value={firstName}
+            onChange={(event) => {
+              setFirstName(event.currentTarget.value);
+            }}
+          />
+        </label>
+        <br />
+        <label>
+          Last name
+          <input
+            value={lastName}
+            onChange={(event) => {
+              setLastName(event.currentTarget.value);
+            }}
+          />
+        </label>
+        <br />
+        <br />
+        <button>Submit</button>
+      </form>
       <br />
       <button>Delete Guest</button>
 
