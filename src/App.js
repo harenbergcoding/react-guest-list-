@@ -1,32 +1,37 @@
 import './App.css';
 import { useState } from 'react';
 
+let userId = 0;
 function App() {
   // const guestList = [];
-  let userId = 0;
+
   const [guests, setGuests] = useState([]);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [isAttending, setIsAttending] = useState(false);
   console.log(guests);
+
   function createGuest(event) {
     event.preventDefault();
+
+    userId++;
     const newGuest = {
       id: userId,
       firstName: firstName,
       lastName: lastName,
       attendance: isAttending,
     };
-    userId++;
+
     setGuests([...guests, newGuest]);
     setFirstName('');
     setLastName('');
   }
 
-  // function deleteUser() {}
-  // const newState = [...guests];
-  // newState.find(guests.id === newGuest.id).shift();
-  // setGuests(guests);
+  function deleteUser() {
+    const newState = [...guests];
+    newState.shift();
+    setGuests(newState);
+  }
 
   return (
     <div className="App">
@@ -54,20 +59,26 @@ function App() {
         </label>
         <br />
         <br />
-        <button>Submit</button>
+        <button hidden>Submit</button>
       </form>
       <br />
-      <button>Delete Guest</button>
+      {/* <button>Delete Guest</button> */}
 
       <div data-test-id="guest">
         {guests.map((guest) => {
           return (
             <div key={`user-${guests.id}`}>
               <div>
+                <input type="checkbox" />
                 {guest.firstName}
                 {guest.lastName}
-                {/* <input type="checkbox" /> */}
-                <button>Remove</button>
+                <button
+                  onClick={() => {
+                    deleteUser();
+                  }}
+                >
+                  Remove
+                </button>
               </div>
             </div>
           );
