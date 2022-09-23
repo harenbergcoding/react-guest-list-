@@ -1,66 +1,38 @@
 import './App.css';
-// import propTypes from 'prop-types';
 import { useState } from 'react';
 
 function App() {
-  const guestList = [];
+  // const guestList = [];
+  let userId = 0;
   const [guests, setGuests] = useState([]);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [isAttending, setIsAttending] = useState('not attending');
-  const newGuest = [
-    { firstname: '' },
-    { lastname: '' },
-    { status: 'not attending' },
-  ];
-
-  function createGuest() {
-    return (newGuest.firstname = { firstName });
-    newGuest.lastname = { lastName };
+  const [isAttending, setIsAttending] = useState(false);
+  console.log(guests);
+  function createGuest(event) {
+    event.preventDefault();
+    const newGuest = {
+      id: userId,
+      firstName: firstName,
+      lastName: lastName,
+      attendance: isAttending,
+    };
+    userId++;
+    setGuests([...guests, newGuest]);
+    setFirstName('');
+    setLastName('');
   }
 
-  createGuest();
-  console.log(newGuest);
-
-  // const baseUrl = 'http://localhost:4000';
-
-  // async function getUser() {
-  //   const response = await fetch(`${baseUrl}/guests/:id`);
-  //   const guest = await response.json();
-  //   console.log(guest);
-  // }
-  // getUser();
-
-  // function User(props) {
-  //   return (
-  //     <>
-  //       {props.firstName}
-  //       {props.lastName}
-  //       <button></button>
-  //       {isAttending}
-  //     </>
-  //   );
-  // }
-
-  // function createUser() {
-  //   return (
-  //     <>
-  //       <User
-  //         firstName={'Michael'}
-  //         lastName={'H'}
-  //         {isAttending}
-  //       ></User>
-  //     </>
-  //   );
-  // }
+  // function deleteUser() {}
+  // const newState = [...guests];
+  // newState.find(guests.id === newGuest.id).shift();
+  // setGuests(guests);
 
   return (
     <div className="App">
-      <button>Save Guestlist</button>
-      <button>Load Guestlist</button>
       <br />
       <br />
-      <form onSubmit={(event) => event.preventDefault}>
+      <form onSubmit={(event) => createGuest(event)}>
         <label>
           First name
           <input
@@ -88,9 +60,18 @@ function App() {
       <button>Delete Guest</button>
 
       <div data-test-id="guest">
-        {firstName}
-        {lastName}
-        {isAttending}
+        {guests.map((guest) => {
+          return (
+            <div key={`user-${guests.id}`}>
+              <div>
+                {guest.firstName}
+                {guest.lastName}
+                {/* <input type="checkbox" /> */}
+                <button>Remove</button>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
