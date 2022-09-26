@@ -1,7 +1,7 @@
 import './App.css';
 import { useState } from 'react';
 
-let userId = 0;
+let userId = -1;
 function App() {
   const [guests, setGuests] = useState([]);
   const [firstName, setFirstName] = useState('');
@@ -24,19 +24,27 @@ function App() {
     setGuests([...guests, newGuest]);
     setFirstName('');
     setLastName('');
-    setIsAttending(false);
   }
 
   function deleteUser() {
     const newState = [...guests];
-    newState.shift();
+    const index = newState.splice(newState[userId], 1);
     setGuests(newState);
+
+    console.log(index);
+
+    // findIndex((objects, index) => {
+    //   return objects[userId].userId === userId;
+    // })
+
+    // newState.shift();
+    // setGuests(newState); splice(0, 1)
   }
 
-  // function setAttendance(event, checkBoxValue) {
+  // function handleChangeAttendance(event) {
   //   setCheckBoxValue(event.currentTarget.checked);
-  //   setIsAttending(isAttending);
-  //   console.log(checkBoxValue);
+  //   setIsAttending(event.currentTarget.checked);
+  //   guests[0].attendance = isAttending;
   // }
 
   console.log(checkBoxValue);
@@ -70,8 +78,6 @@ function App() {
         <br />
         <button>Submit</button>
       </form>
-      <br />
-
       <div data-test-id="guest">
         {guests.map((guest) => {
           return (
