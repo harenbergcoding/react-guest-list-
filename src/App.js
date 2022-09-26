@@ -26,26 +26,28 @@ function App() {
     setLastName('');
   }
 
-  function deleteUser() {
+  function deleteUser(userId) {
     const newState = [...guests];
-    const index = newState.splice(newState[userId], 1);
-    setGuests(newState);
-
-    console.log(index);
-
-    // findIndex((objects, index) => {
-    //   return objects[userId].userId === userId;
-    // })
-
-    // newState.shift();
-    // setGuests(newState); splice(0, 1)
+    const filteredGuestList = newState.filter((guest) => guest.id !== userId);
+    setGuests(filteredGuestList);
+    // setGuests(guests.filter((guest) => guest.id !== userId)) the shorter way
   }
 
-  // function handleChangeAttendance(event) {
-  //   setCheckBoxValue(event.currentTarget.checked);
-  //   setIsAttending(event.currentTarget.checked);
-  //   guests[0].attendance = isAttending;
-  // }
+  function updateAttendance(userId, event) {
+    const filteredGuestList = guests.filter((guest) => guest.id === userId);
+    // setIsAttending(event.currentTarget.checked);
+
+    // const newState = [...guests];
+    // const filteredGuestList = newState.filter((guest) => guest.id === userId);
+    // console.log('filtered guest to set attendance = true', filteredGuestList);
+
+    const updateGuest = {
+      ...filteredGuestList,
+      attendance: (filteredGuestList.attendance = true),
+    };
+    const allGuestsAgain = [...filteredGuestList, updateGuest];
+    setGuests(allGuestsAgain);
+  }
 
   console.log(checkBoxValue);
   console.log(isAttending);
@@ -81,24 +83,26 @@ function App() {
       <div data-test-id="guest">
         {guests.map((guest) => {
           return (
-            <div key={`user-${guests.id}`}>
+            <div key={`user-${guest.id}`}>
               <div>
                 <input
                   type="checkbox"
-                  checked={checkBoxValue}
+                  checked={guest.attendance}
+                  // checked={(guests[0].attendance = true)}
                   onChange={(event) => {
-                    setCheckBoxValue(event.currentTarget.checked);
-                    setIsAttending(event.currentTarget.checked);
+                    updateAttendance(guest.id, event.currentTarget.checked);
+                    // setCheckBoxValue(guest.id, event.currentTarget.checked);
+                    // setIsAttending(event.currentTarget.checked);
                   }}
-                  aria-label={`${guest.firstName}${guest.lastName}${isAttending}`}
+                  aria-label={`${guest.firstName}${guest.lastName}${guest.isAttending}`}
                 />
                 {`${guest.firstName}
                 ${guest.lastName}
-                ${isAttending}`}
+                ${guest.isAttending}`}
 
                 <button
                   onClick={() => {
-                    deleteUser();
+                    deleteUser(guest.id);
                   }}
                 >
                   Remove
