@@ -33,7 +33,7 @@ function App() {
     // setGuests(guests.filter((guest) => guest.id !== userId)) the shorter way
   }
 
-  function updateAttendance(userId, event) {
+  function updateAttendance(userId, attendanceEvent) {
     const filteredGuestList = guests.filter((guest) => guest.id === userId);
     // setIsAttending(event.currentTarget.checked);
 
@@ -43,7 +43,7 @@ function App() {
 
     const updateGuest = {
       ...filteredGuestList,
-      attendance: (filteredGuestList.attendance = true),
+      attendance: setIsAttending(attendanceEvent),
     };
     const allGuestsAgain = [...filteredGuestList, updateGuest];
     setGuests(allGuestsAgain);
