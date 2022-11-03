@@ -3,17 +3,18 @@ import { useState } from 'react';
 
 let userId = -1;
 function App() {
+  // guests is a useState variable to render the guestlist on every update
   const [guests, setGuests] = useState([]);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [checkBoxValue, setCheckBoxValue] = useState(false);
   const [isAttending, setIsAttending] = useState(false);
-  console.log(guests);
+  console.log('guests', guests);
 
   function createGuest(event) {
     event.preventDefault();
     userId++;
 
+    // initial empty guest object
     const newGuest = {
       id: userId,
       firstName: firstName,
@@ -21,41 +22,33 @@ function App() {
       attendance: isAttending,
     };
 
+    // spread operator. pushes newly created guest into the guests array
     setGuests([...guests, newGuest]);
+
+    // sets input fields to blank
     setFirstName('');
     setLastName('');
   }
 
-  function deleteUser(userId) {
-    const newState = [...guests];
-    const filteredGuestList = newState.filter((guest) => guest.id !== userId);
-    setGuests(filteredGuestList);
-    // setGuests(guests.filter((guest) => guest.id !== userId)) the shorter way
+  // filters userlist
+  function deleteUserById(userId) {
+    setGuests(guests.filter((guest) => guest.id !== userId));
   }
 
-  function updateAttendance(userId, attendanceEvent) {
-    const filteredGuestList = guests.filter((guest) => guest.id === userId);
-    // setIsAttending(event.currentTarget.checked);
+  function updateAttendanceById(guestId, event) {
+    const findGuest = guests.filter((guest) => guest.id === guestId);
+    console.log('findGuest', findGuest);
 
-    // const newState = [...guests];
-    // const filteredGuestList = newState.filter((guest) => guest.id === userId);
-    // console.log('filtered guest to set attendance = true', filteredGuestList);
-
-    const updateGuest = {
-      ...filteredGuestList,
-      attendance: setIsAttending(attendanceEvent),
-    };
-    const allGuestsAgain = [...filteredGuestList, updateGuest];
-    setGuests(allGuestsAgain);
+    findGuest[0].attendance = event.target.checked;
+    console.log('findGuest[0].attendance', findGuest[0].attendance);
+    setGuests(guests);
   }
 
-  console.log(checkBoxValue);
-  console.log(isAttending);
+  console.log('isAttending', isAttending);
 
   return (
     <div className="App">
-      <br />
-      <br />
+      <h1>React Guest List</h1>
       <form onSubmit={(event) => createGuest(event)}>
         <label>
           First name
@@ -87,22 +80,18 @@ function App() {
               <div>
                 <input
                   type="checkbox"
-                  checked={guest.attendance}
-                  // checked={(guests[0].attendance = true)}
                   onChange={(event) => {
-                    updateAttendance(guest.id, event.currentTarget.checked);
-                    // setCheckBoxValue(guest.id, event.currentTarget.checked);
-                    // setIsAttending(event.currentTarget.checked);
+                    updateAttendanceById(guest.id, event);
                   }}
                   aria-label={`${guest.firstName}${guest.lastName}${guest.isAttending}`}
                 />
                 {`${guest.firstName}
-                ${guest.lastName}
-                ${guest.isAttending}`}
+                ${guest.lastName},
+                Attendance: ${guest.attendance}`}
 
                 <button
                   onClick={() => {
-                    deleteUser(guest.id);
+                    deleteUserById(guest.id);
                   }}
                 >
                   Remove
