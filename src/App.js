@@ -39,7 +39,8 @@ function App() {
     const findGuest = guests.filter((guest) => guest.id === guestId);
     console.log('findGuest', findGuest);
 
-    findGuest[0].attendance = event.target.checked;
+    const foundGuestWithUpdatedAttendance = (findGuest[0].attendance =
+      event.target.checked);
     console.log('findGuest[0].attendance', findGuest[0].attendance);
     setGuests(guests);
   }
