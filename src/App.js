@@ -9,6 +9,21 @@ function App() {
   const [lastName, setLastName] = useState('');
   const [isAttending, setIsAttending] = useState(false);
   console.log('guests', guests);
+  const baseUrl = 'http://localhost:4000';
+
+  async function createGuestInApiByFirstnameAndLastname(firstName, lastName) {
+    const response = await fetch(`${baseUrl}/guests`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        firstName: `${firstName}`,
+        lastName: `${lastName}`,
+      }),
+    });
+    const createdGuest = await response.json();
+  }
 
   function createGuest(event) {
     event.preventDefault();
@@ -46,11 +61,17 @@ function App() {
   }
 
   console.log('isAttending', isAttending);
+  console.log('guests', guests);
 
   return (
     <div className="App">
       <h1>React Guest List</h1>
-      <form onSubmit={(event) => createGuest(event)}>
+      <form
+        onSubmit={(event) => {
+          createGuest(event),
+            createGuestInApiByFirstnameAndLastname(firstName, lastName);
+        }}
+      >
         <label>
           First name
           <input
@@ -84,13 +105,14 @@ function App() {
                   onChange={(event) => {
                     updateAttendanceById(guest.id, event);
                   }}
-                  aria-label={`${guest.firstName}${guest.lastName}${guest.isAttending}`}
+                  aria-label={`${guest.firstName}${guest.lastName} attending status`}
                 />
                 {`${guest.firstName}
                 ${guest.lastName},
                 Attendance: ${guest.attendance}`}
 
                 <button
+                  aria-label={`Remove ${guest.firstName}${guest.lastName}`}
                   onClick={() => {
                     deleteUserById(guest.id);
                   }}
